@@ -42,13 +42,15 @@ class BranchServiceTest {
     @DisplayName("모든 연도별 관리점통계정보 조회하기")
     public void getBranchStatisticsInfos() {
         //given
+        Integer year = 2021;
+
         Branch branch = new Branch("A", "TestBranch");
         branchRepository.save(branch);
-        Account account = new Account("111222000001", "TestAccount", "A");
+        Account account = new Account("111222000001", "TestAccount", branch.getBrCode());
         accountRepository.save(account);
-        TransactionLog log1 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log1 = new TransactionLog(year + "0101", account.getAccNo(), 1L, 1000001L, 101L, "N");
         transactionLogRepository.save(log1);
-        TransactionLog log2 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log2 = new TransactionLog(year + "0101", account.getAccNo(), 1L, 1000002L, 102L, "N");
         transactionLogRepository.save(log2);
 
         //when
@@ -58,16 +60,15 @@ class BranchServiceTest {
         assertThat(list.size()).isEqualTo(1);
 
         BranchStatisticsInfos info = list.get(0);
-        Integer year = info.getYear();
         List<BranchStatistics> dataList = info.getDataList();
 
-        assertThat(year).isEqualTo(Integer.parseInt(log1.getDate().substring(0, 4))); //check year
+        assertThat(info.getYear()).isEqualTo(year); //check year
         assertThat(dataList.size()).isEqualTo(1);
 
         BranchStatistics statistics = dataList.get(0);
 
         assertThat(statistics.getBrCode()).isEqualTo(branch.getBrCode()); //check branch
-        assertThat(statistics.getSumAmt()).isEqualTo(log1.getAmount() + log2.getAmount()); //check sumAmt
+        assertThat(statistics.getSumAmt()).isEqualTo(log1.getAmount() + log2.getAmount() - log1.getFee() - log2.getFee()); //check sumAmt
     }
 
     @Test
@@ -76,11 +77,11 @@ class BranchServiceTest {
         //given
         Branch branch = new Branch("A", "TestBranch");
         branchRepository.save(branch);
-        Account account = new Account("111222000001", "TestAccount", "A");
+        Account account = new Account("111222000001", "TestAccount", branch.getBrCode());
         accountRepository.save(account);
-        TransactionLog log1 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log1 = new TransactionLog("20210101", account.getAccNo(), 1L, 1000001L, 101L, "N");
         transactionLogRepository.save(log1);
-        TransactionLog log2 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log2 = new TransactionLog("20210101", account.getAccNo(), 1L, 1000002L, 102L, "N");
         transactionLogRepository.save(log2);
 
         //when
@@ -88,7 +89,7 @@ class BranchServiceTest {
 
         //then
         assertThat(statistics.getBrCode()).isEqualTo(branch.getBrCode()); //check branch
-        assertThat(statistics.getSumAmt()).isEqualTo(log1.getAmount() + log2.getAmount()); //check sumAmt
+        assertThat(statistics.getSumAmt()).isEqualTo(log1.getAmount() + log2.getAmount() - log1.getFee() - log2.getFee()); //check sumAmt
     }
 
     @Test
@@ -97,11 +98,11 @@ class BranchServiceTest {
         //given
         Branch branch = new Branch("A", "TestBranch");
         branchRepository.save(branch);
-        Account account = new Account("111222000001", "TestAccount", "A");
+        Account account = new Account("111222000001", "TestAccount", branch.getBrCode());
         accountRepository.save(account);
-        TransactionLog log1 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log1 = new TransactionLog("20210101", account.getAccNo(), 1L, 1000001L, 101L, "N");
         transactionLogRepository.save(log1);
-        TransactionLog log2 = new TransactionLog("20210101", "111222000001", 1L, 1000000L, 100L, "N");
+        TransactionLog log2 = new TransactionLog("20210101", account.getAccNo(), 1L, 1000002L, 102L, "N");
         transactionLogRepository.save(log2);
 
         //when
