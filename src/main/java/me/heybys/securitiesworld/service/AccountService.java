@@ -28,7 +28,7 @@ public class AccountService {
     }
 
     /**
-     * 계좌정보 조회
+     * 모든 계좌정보 조회
      *
      * @return 계좌정보 목록
      */
