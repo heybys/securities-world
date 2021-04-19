@@ -15,7 +15,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
                     "FROM ( " +
                     "    SELECT IFNULL(acc_stt.sum_amt, 0) AS sum_amt, b.br_code, b.br_name " +
                     "    FROM ( " +
-                    "        SELECT t.acc_no AS acc_no, SUM(t.amount) AS sum_amt " +
+                    "        SELECT t.acc_no AS acc_no, SUM(t.amount - t.fee) AS sum_amt " +
                     "        FROM transaction_log t" +
                     "        WHERE t.cancel_yn = 'N' AND t.date LIKE :year% " +
                     "        GROUP BY acc_no) acc_stt " +
@@ -30,7 +30,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
                     "FROM ( " +
                     "    SELECT IFNULL(acc_stt.sum_amt, 0) AS sum_amt, b.br_code, b.br_name " +
                     "    FROM ( " +
-                    "        SELECT t.acc_no AS acc_no, SUM(t.amount) AS sum_amt " +
+                    "        SELECT t.acc_no AS acc_no, SUM(t.amount - t.fee) AS sum_amt " +
                     "        FROM transaction_log t" +
                     "        WHERE t.cancel_yn = 'N' " +
                     "        GROUP BY acc_no) acc_stt " +
