@@ -4,11 +4,9 @@ package me.heybys.securitiesworld.controller;
 import me.heybys.securitiesworld.service.BranchService;
 import me.heybys.securitiesworld.vo.BranchStatistics;
 import me.heybys.securitiesworld.vo.BranchStatisticsInfos;
+import me.heybys.securitiesworld.vo.BranchIntegration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,10 @@ public class BranchController {
     @GetMapping(value = "/statistics")
     public BranchStatistics getBranchStatistics(@RequestParam("brName") String brName) {
         return service.getBranchStatistics(brName);
+    }
+
+    @PostMapping(value = "/merge")
+    public Boolean mergeBranch(@RequestBody() BranchIntegration branchIntegration) {
+        return service.mergeBranch(branchIntegration);
     }
 }

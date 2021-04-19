@@ -7,6 +7,7 @@ import me.heybys.securitiesworld.exception.BranchStatisticsNotFoundException;
 import me.heybys.securitiesworld.repository.AccountRepository;
 import me.heybys.securitiesworld.repository.BranchRepository;
 import me.heybys.securitiesworld.repository.TransactionLogRepository;
+import me.heybys.securitiesworld.vo.BranchIntegration;
 import me.heybys.securitiesworld.vo.BranchStatistics;
 import me.heybys.securitiesworld.vo.BranchStatisticsInfos;
 import org.junit.jupiter.api.DisplayName;
@@ -24,18 +25,18 @@ class BranchServiceTest {
 
     private BranchRepository branchRepository;
 
-    private TransactionLogRepository transactionLogRepository;
-
-    @Autowired
     private AccountRepository accountRepository;
+
+    private TransactionLogRepository transactionLogRepository;
 
     private BranchService branchService;
 
     @Autowired
-    public BranchServiceTest(BranchRepository branchRepository, TransactionLogRepository transactionLogRepository) {
+    public BranchServiceTest(BranchRepository branchRepository, AccountRepository accountRepository, TransactionLogRepository transactionLogRepository) {
         this.branchRepository = branchRepository;
+        this.accountRepository = accountRepository;
         this.transactionLogRepository = transactionLogRepository;
-        this.branchService = new BranchService(this.branchRepository, this.transactionLogRepository);
+        this.branchService = new BranchService(this.branchRepository, this.accountRepository, this.transactionLogRepository);
     }
 
     @Test
@@ -111,5 +112,27 @@ class BranchServiceTest {
 
         //then
         assertThat(e.getBrName()).isEqualTo(closedBranch.getBrName());
+    }
+
+    @Test
+    @DisplayName("관리점 통합하기")
+    public void mergeBranch() {
+        //given
+        Branch branch1 = new Branch("A", "TestBranch1");
+        branchRepository.save(branch1);
+        Account account1 = new Account("111222000001", "TestAccount1", branch1.getBrCode());
+        accountRepository.save(account1);
+
+        Branch branch2 = new Branch("B", "TestBranch2");
+        branchRepository.save(branch2);
+        Account account2 = new Account("111222000002", "TestAccount2", "B");
+        accountRepository.save(account2);
+
+        //when
+        BranchIntegration branchIntegration = new BranchIntegration(branch2.getBrName(), branch1.getBrName());
+        branchService.mergeBranch(branchIntegration);
+
+        //then
+        assertThat(branchRepository.existsById(branch2.getBrCode())).isFalse();
     }
 }

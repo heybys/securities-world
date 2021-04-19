@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BranchRepository extends JpaRepository<Branch, String> {
 
@@ -41,5 +42,7 @@ public interface BranchRepository extends JpaRepository<Branch, String> {
                     "ORDER BY sumAmt DESC ", nativeQuery = true)
     List<BranchStatistics> findBranchStatisticsByBrName(@Param("brName") String brName);
 
+    Optional<Branch> findByBrName(String brName);
 
+    void deleteByBrName(String brName);
 }
