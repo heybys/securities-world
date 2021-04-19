@@ -1,6 +1,5 @@
 package me.heybys.securitiesworld.service;
 
-import me.heybys.securitiesworld.entity.Branch;
 import me.heybys.securitiesworld.exception.BranchStatisticsNotFoundException;
 import me.heybys.securitiesworld.repository.BranchRepository;
 import me.heybys.securitiesworld.repository.TransactionLogRepository;
@@ -52,6 +51,5 @@ public class BranchService {
      */
     public BranchStatistics getBranchStatistics(String brName) {
         return branchRepository.findBranchStatisticsByBrName(brName).stream().findAny().orElseThrow(() -> new BranchStatisticsNotFoundException(brName));
-
     }
 }
