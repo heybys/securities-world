@@ -8,11 +8,13 @@ import me.heybys.securitiesworld.vo.AccountStatisticsInfo;
 import me.heybys.securitiesworld.vo.DormantAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AccountService {
 
     private final AccountRepository accountRepository;
