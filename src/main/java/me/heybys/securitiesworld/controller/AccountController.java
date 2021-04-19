@@ -24,11 +24,6 @@ public class AccountController {
         this.service = service;
     }
 
-    @GetMapping(value = "/")
-    public List<Account> findAccounts() {
-        return service.findAccounts();
-    }
-
     @GetMapping(value = "/statistics")
     public List<AccountStatisticsInfo> getAccountStatisticsInfos() {
         List<AccountStatisticsInfo> list = new ArrayList<>();
