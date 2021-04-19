@@ -1,35 +1,55 @@
 package me.heybys.securitiesworld.service;
 
+import me.heybys.securitiesworld.entity.Branch;
+import me.heybys.securitiesworld.exception.BranchStatisticsNotFoundException;
 import me.heybys.securitiesworld.repository.BranchRepository;
+import me.heybys.securitiesworld.repository.TransactionLogRepository;
 import me.heybys.securitiesworld.vo.BranchStatistics;
+import me.heybys.securitiesworld.vo.BranchStatisticsInfos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BranchService {
 
     private final BranchRepository branchRepository;
 
+    private final TransactionLogRepository transactionLogRepository;
+
     @Autowired
-    public BranchService(BranchRepository branchRepository) {
+    public BranchService(BranchRepository branchRepository, TransactionLogRepository transactionLogRepository) {
         this.branchRepository = branchRepository;
+        this.transactionLogRepository = transactionLogRepository;
     }
 
     /**
-     * 연도별 관리점통계정보 조회
+     * 모든 연도별 관리점통계정보 조회
      *
-     * @param year
-     * @return
+     * @return 관리점통계정보 목록
      */
-    public List<BranchStatistics> getBranchStatisticsByYear(Integer year) {
-        return branchRepository.findBranchStatisticsByYear(Integer.toString(year));
+    public List<BranchStatisticsInfos> getBranchStatisticsInfos() {
+
+        List<String> years = transactionLogRepository.findTransactionLogYears();
+
+        List<BranchStatisticsInfos> list = new ArrayList<>();
+        years.forEach(year -> {
+            list.add(new BranchStatisticsInfos(Integer.parseInt(year), branchRepository.findBranchStatisticsByYear(year)));
+        });
+
+        return list;
     }
 
-    public Optional<BranchStatistics> getBranchStatisticsByBrName(String brName) {
-        Optional<BranchStatistics> result = branchRepository.findBranchStatisticsByBrName(brName).stream().findAny();
-        return result;
+    /**
+     * 관지점명별 관리점통계정보 조회
+     *
+     * @param brName 관리점명
+     * @return 관리점통계정보
+     */
+    public BranchStatistics getBranchStatistics(String brName) {
+        return branchRepository.findBranchStatisticsByBrName(brName).stream().findAny().orElseThrow(() -> new BranchStatisticsNotFoundException(brName));
+
     }
 }
