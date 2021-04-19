@@ -1,15 +1,15 @@
 package me.heybys.securitiesworld.vo;
 
-public class AccountStatisticsInfo {
+public class AccountStatistics {
     private Integer year;
     private String name;
     private String accNo;
     private Long sumAmt;
 
-    public AccountStatisticsInfo() {
+    public AccountStatistics() {
     }
 
-    public AccountStatisticsInfo(Integer year, String name, String accNo, Long sumAmt) {
+    public AccountStatistics(Integer year, String name, String accNo, Long sumAmt) {
         this.year = year;
         this.name = name;
         this.accNo = accNo;

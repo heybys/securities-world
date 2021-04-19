@@ -4,7 +4,7 @@ import me.heybys.securitiesworld.entity.Account;
 import me.heybys.securitiesworld.entity.TransactionLog;
 import me.heybys.securitiesworld.repository.AccountRepository;
 import me.heybys.securitiesworld.repository.TransactionLogRepository;
-import me.heybys.securitiesworld.vo.AccountStatisticsInfo;
+import me.heybys.securitiesworld.vo.AccountStatistics;
 import me.heybys.securitiesworld.vo.DormantAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +51,7 @@ public class AccountService {
      *
      * @return 계좌통계정보
      */
-    public AccountStatisticsInfo getAccountStatisticsInfoByYear(Integer year) {
+    public AccountStatistics getAccountStatisticsInfoByYear(Integer year) {
 
         // 연도에 해당하는 거래 목록
         List<TransactionLog> filtered = transactionLogRepository.findAll().stream().filter(log -> log.getDate().startsWith(Integer.toString(year))).collect(Collectors.toList());
@@ -89,7 +89,7 @@ public class AccountService {
             }
         }
 
-        return new AccountStatisticsInfo(year, findAccount(maxAccNo).get().getName(), maxAccNo, maxSumAmt);
+        return new AccountStatistics(year, findAccount(maxAccNo).get().getName(), maxAccNo, maxSumAmt);
     }
 
     /**

@@ -1,9 +1,8 @@
 package me.heybys.securitiesworld.controller;
 
 
-import me.heybys.securitiesworld.entity.Account;
 import me.heybys.securitiesworld.service.AccountService;
-import me.heybys.securitiesworld.vo.AccountStatisticsInfo;
+import me.heybys.securitiesworld.vo.AccountStatistics;
 import me.heybys.securitiesworld.vo.DormantAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ public class AccountController {
     }
 
     @GetMapping(value = "/statistics")
-    public List<AccountStatisticsInfo> getAccountStatisticsInfos() {
-        List<AccountStatisticsInfo> list = new ArrayList<>();
+    public List<AccountStatistics> getAccountStatisticsInfos() {
+        List<AccountStatistics> list = new ArrayList<>();
 
         list.add(service.getAccountStatisticsInfoByYear(2018));
         list.add(service.getAccountStatisticsInfoByYear(2019));

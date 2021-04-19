@@ -2,14 +2,12 @@ package me.heybys.securitiesworld.service;
 
 
 import me.heybys.securitiesworld.entity.Account;
-import me.heybys.securitiesworld.entity.Branch;
 import me.heybys.securitiesworld.entity.TransactionLog;
 import me.heybys.securitiesworld.repository.AccountRepository;
 import me.heybys.securitiesworld.repository.BranchRepository;
 import me.heybys.securitiesworld.repository.TransactionLogRepository;
-import me.heybys.securitiesworld.vo.AccountStatisticsInfo;
+import me.heybys.securitiesworld.vo.AccountStatistics;
 import me.heybys.securitiesworld.vo.DormantAccount;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +91,7 @@ class AccountServiceTest {
         transactionLogRepository.save(log3);
 
         //when
-        AccountStatisticsInfo result = accountService.getAccountStatisticsInfoByYear(year);
+        AccountStatistics result = accountService.getAccountStatisticsInfoByYear(year);
 
         //then
         assertThat(result.getYear()).isEqualTo(year);
