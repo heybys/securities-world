@@ -2,7 +2,8 @@
 ## 개발 프레임웍크
 - Spring Boot 2.4.5
 - Java 11
-- Intellij Tools 사용
+- Gradle Build Tool
+- 기타 개발환경 : MacOS, Intellij IDE
 
 ## 문제해결 방법
 - Spring Data JPA를 통해 Entity 구성 및 Schema 구성 (임베디드 h2 인메모리 디비 사용)
