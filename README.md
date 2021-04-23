@@ -27,7 +27,11 @@
   - `\securities-world > .\gradlew.bat build`
 - **Mac/Linux 인 경우,**
   - `/securities-world $ ./gradlew build`
-    
+  
+
+- **테스트 실행**
+  - `/securities-world $ ./gradlew test`
+  
 
 - **서버 실행** (Port 겹침 우려로 인해 8088로 실행하도록 함)
   - 📌 단 !!!! Windows 환경에서 실행하는 경우, `/securities-world/src/main/resources/` 경로에 가서 csv 파일을 기존과 동일한 파일명으로 재저장(다른 이름으로 저장) 후 서버 기동 바람. 건너뛸 시  encoding 문제로 네번쨰 과제 확인이 어려울 수 있음.   
